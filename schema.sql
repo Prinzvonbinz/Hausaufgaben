@@ -4,14 +4,11 @@ CREATE TABLE IF NOT EXISTS events (
   fach TEXT NOT NULL,
   datum TEXT NOT NULL,
   beschreibung TEXT,
-  created_at INTEGER,
-  created_by TEXT
+  created_at INTEGER
 );
-CREATE TABLE IF NOT EXISTS subscriptions (
-  id TEXT PRIMARY KEY,
-  endpoint TEXT NOT NULL,
+CREATE TABLE IF NOT EXISTS subs (
+  endpoint TEXT PRIMARY KEY,
   p256dh TEXT NOT NULL,
-  auth TEXT NOT NULL,
-  settings TEXT
+  auth TEXT NOT NULL
 );
-CREATE INDEX idx_datum ON events(datum);
+CREATE INDEX IF NOT EXISTS idx_datum ON events(datum);
