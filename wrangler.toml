@@ -1,0 +1,16 @@
+name = "klassen-hausaufgaben"
+main = "worker.js"
+compatibility_date = "2024-01-01"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "hausaufgaben-db"
+database_id = "REPLACE_WITH_YOUR_D1_ID"
+
+[triggers]
+crons = ["0 16 * * *"] # Jeden Tag 17 Uhr checkt ob morgen/übermorgen was ist
+
+[vars]
+VAPID_PUBLIC_KEY = "DEIN_PUBLIC_KEY_HIER"
+VAPID_PRIVATE_KEY = "DEIN_PRIVATE_KEY_HIER"
+VAPID_SUBJECT = "mailto:deine@email.de"
