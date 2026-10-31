@@ -1,232 +1,106 @@
-<!DOCTYPE html>
-<html lang="de">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Klassen Planer</title>
-<meta name="theme-color" content="#0f0f12">
+<!DOCTYPE html><html lang="de"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Klassen Planer</title><link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiS2xhc3NlbiBQbGFuZXIifQ==">
 <style>
-*{box-sizing:border-box;font-family:system-ui,-apple-system,Segoe UI,Roboto}
-body{margin:0;background:#0f0f12;color:white;min-height:100vh;padding-bottom:90px}
-header{position:sticky;top:0;z-index:20;background:rgba(15,15,18,.9);backdrop-filter:blur(20px);border-bottom:1px solid #222;padding:12px 16px;display:flex;justify-content:space-between;align-items:center}
-.icon{width:44px;height:44px;border-radius:14px;background:#1c1c22;border:1px solid #2a2a33;color:white;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center}
-#addTop{background:white;color:black;border:none;padding:12px 18px;border-radius:14px;font-weight:800;cursor:pointer}
-.searchWrap{max-width:720px;margin:0 auto;padding:12px 16px}
-#search{width:100%;background:#1c1c22;border:1px solid #2a2a33;border-radius:14px;padding:13px 14px;color:white;outline:none}
-.cal{max-width:720px;margin:0 auto;padding:0 16px}
-.calHead{display:flex;justify-content:space-between;align-items:center;margin:14px 0}
-.calHead b{font-size:18px}
-.grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
-.dow{color:#666;font-size:12px;text-align:center;padding:4px}
-.day{background:#17171c;border:1px solid #262631;border-radius:16px;min-height:84px;padding:7px;cursor:pointer;position:relative}
-.day.today{border-color:#fff;box-shadow:0 0 0 1px #fff inset}
-.day.other{opacity:.25}
-.dayNum{font-size:13px;font-weight:800}
-.dots{margin-top:6px;display:flex;flex-wrap:wrap;gap:4px}
-.dot{width:8px;height:8px;border-radius:99px}
-.list{margin-top:22px;display:flex;flex-direction:column;gap:10px}
-.item{padding:14px;border-radius:16px;border:1px solid #333;display:flex;gap:12px;align-items:center;cursor:pointer}
-.item b{font-size:15px}
-.item small{color:#aaa;font-size:12px;display:block;margin-top:2px}
-.badge{width:10px;height:10px;border-radius:50%;flex-shrink:0}
-.type-Hausaufgabe{background:#1e2e4e;border-color:#3B82F6}
-.type-Test{background:#3a2d18;border-color:#F59E0B}
-.type-Klassenarbeit{background:#3d1e1e;border-color:#EF4444}
-.type-Sonstiges{background:#163022;border-color:#10B981}
-.overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(12px);display:none;align-items:center;justify-content:center;z-index:100;padding:16px}
-.overlay.open{display:flex}
-.panel{background:#18181e;border:1px solid #333;border-radius:22px;padding:20px;width:100%;max-width:500px;max-height:92vh;overflow:auto}
-.panel h2{margin:0 0 12px}
-.cats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0}
-.cats button{padding:14px;border-radius:14px;border:2px solid #333;background:#1c1c22;color:white;font-weight:700}
-.cats button.active{border-color:white;background:white;color:black}
-.panel input,.panel textarea{width:100%;padding:12px 14px;border-radius:12px;border:1px solid #333;background:#0f0f12;color:white;margin-bottom:10px;outline:none}
-.actions{display:flex;gap:8px;margin-top:8px}
-.actions button{flex:1;padding:13px;border-radius:12px;border:none;font-weight:800;cursor:pointer}
-.btnW{background:white;color:black}.btnD{background:#252530;color:white}
-.settingRow{display:flex;justify-content:space-between;align-items:center;background:#1c1c22;border:1px solid #2a2a33;border-radius:12px;padding:12px 14px;margin-bottom:8px}
-</style>
-</head>
-<body>
-<header>
-  <button class="icon" onclick="openSettings()">☰</button>
-  <div id="monthTitle" style="font-weight:800"></div>
-  <button id="addTop" onclick="openAdd()">+ Add</button>
-</header>
-
-<div class="searchWrap"><input id="search" placeholder="Suche nach Fach, Typ, Datum z.B. 2026-05-12..."></div>
-
-<div class="cal">
-  <div class="calHead">
-    <button class="icon" onclick="move(-1)">‹</button>
-    <b id="calLabel"></b>
-    <button class="icon" onclick="move(1)">›</button>
-  </div>
-  <div class="grid" id="dow"></div>
-  <div class="grid" id="days"></div>
-  <div class="list" id="list"></div>
+*{box-sizing:border-box;font-family:Inter,system-ui}body{margin:0;background:#0A0A0B;color:#fff}
+header{position:sticky;top:0;z-index:20;background:rgba(10,10,11,.85);backdrop-filter:blur(20px);border-bottom:1px solid #1E1E22;display:flex;align-items:center;justify-content:space-between;padding:14px 16px}
+.hBtn{width:44px;height:44px;border-radius:14px;background:#141417;border:1px solid #222;color:#fff;font-size:18px;cursor:pointer}
+.add{background:#fff;color:#000;border:none;padding:12px 18px;border-radius:14px;font-weight:800;cursor:pointer}
+.wrap{max-width:780px;margin:0 auto;padding:0 16px 100px}
+.search{width:100%;margin:14px 0;background:#141417;border:1px solid #222;border-radius:16px;padding:14px;color:#fff;outline:none}
+.calHead{display:flex;justify-content:space-between;align-items:center;margin:16px 0}
+.grid{display:grid;grid-template-columns:repeat(7,1fr);gap:7px}
+.dow{color:#555;font-size:11px;text-align:center;letter-spacing:.5px}
+.day{background:#131316;border:1px solid #1E1E22;border-radius:18px;min-height:92px;padding:8px;cursor:pointer;transition:.15s}
+.day:hover{border-color:#333}.day.today{border-color:#fff}.day.other{opacity:.25}
+.dots{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px}.dot{width:8px;height:8px;border-radius:50%}
+.list{margin-top:26px;display:flex;flex-direction:column;gap:10px}
+.item{display:flex;gap:12px;align-items:center;padding:16px;border-radius:18px;border:1px solid #222;cursor:pointer}
+.item b{font-size:15px}.item span{font-size:12px;color:#888}
+.type-Hausaufgabe{background:rgba(59,130,246,.12);border-color:rgba(59,130,246,.4)}
+.type-Test{background:rgba(245,158,11,.12);border-color:rgba(245,158,11,.4)}
+.type-Klassenarbeit{background:rgba(239,68,68,.12);border-color:rgba(239,68,68,.4)}
+.type-Sonstiges{background:rgba(16,185,129,.12);border-color:rgba(16,185,129,.4)}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(16px);display:none;align-items:center;justify-content:center;z-index:100;padding:16px}
+.overlay.open{display:flex}.panel{background:#141417;border:1px solid #26262B;border-radius:24px;padding:22px;width:100%;max-width:480px}
+.cats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:14px 0}
+.cats button{padding:14px;border-radius:14px;border:1.5px solid #26262B;background:#0A0A0B;color:#fff;font-weight:700;cursor:pointer}
+.cats button.active{background:#fff;color:#000;border-color:#fff}
+.panel input,.panel textarea{width:100%;background:#0A0A0B;border:1px solid #26262B;border-radius:14px;padding:13px;color:#fff;margin-bottom:10px;outline:none}
+.row{display:flex;gap:8px}.row button{flex:1;padding:14px;border-radius:14px;border:none;font-weight:800;cursor:pointer}
+.w{background:#fff;color:#000}.d{background:#1E1E22;color:#fff}
+</style></head><body>
+<header><button class="hBtn" onclick="openS()">☰</button><b id="mTitle"></b><button class="add" onclick="openA()">+ Add</button></header>
+<div class="wrap">
+<input id="q" class="search" placeholder="Suche Fach, Typ, Datum...">
+<div class="calHead"><button class="hBtn" onclick="mv(-1)">‹</button><b id="cLab"></b><button class="hBtn" onclick="mv(1)">›</button></div>
+<div class="grid" id="dow"></div><div class="grid" id="days"></div>
+<div class="list" id="list"></div>
 </div>
 
-<!-- ADD / EDIT -->
-<div class="overlay" id="addOverlay">
-<div class="panel">
-  <h2 id="formTitle">Neu</h2>
-  <div class="cats">
-    <button data-t="Hausaufgabe" onclick="pickType(this)">Hausaufgabe</button>
-    <button data-t="Test" onclick="pickType(this)">Test</button>
-    <button data-t="Klassenarbeit" onclick="pickType(this)">Klassenarbeit</button>
-    <button data-t="Sonstiges" onclick="pickType(this)">Sonstiges</button>
-  </div>
-  <input id="fach" placeholder="Fach - jeder schreibt selbst, z.B. Mathe">
-  <input id="datum" type="date">
-  <textarea id="desc" rows="4" placeholder="Beschreibung - was ist zu tun?"></textarea>
-  <div class="actions">
-    <button class="btnD" onclick="closeAdd()">Abbrechen</button>
-    <button class="btnW" id="saveBtn" onclick="save()">Add</button>
-  </div>
-</div>
-</div>
+<div class="overlay" id="addO"><div class="panel">
+<h2 id="fT" style="margin:0">Neuer Termin</h2>
+<div class="cats"><button data-t="Hausaufgabe" onclick="pt(this)">Hausaufgabe</button><button data-t="Test" onclick="pt(this)">Test</button><button data-t="Klassenarbeit" onclick="pt(this)">Klassenarbeit</button><button data-t="Sonstiges" onclick="pt(this)">Sonstiges</button></div>
+<input id="fach" placeholder="Fach"><input id="datum" type="date"><textarea id="desc" rows="3" placeholder="Beschreibung"></textarea>
+<div class="row"><button class="d" onclick="closeA()">Abbrechen</button><button class="w" id="sB" onclick="save()">Add</button></div>
+</div></div>
 
-<!-- DAY -->
-<div class="overlay" id="dayOverlay">
-<div class="panel">
-  <h2 id="dayTitle"></h2>
-  <div id="dayList" style="display:flex;flex-direction:column;gap:8px;margin:12px 0"></div>
-  <button class="btnW" style="width:100%;padding:13px;border-radius:12px" onclick="openAdd(document.getElementById('dayTitle').dataset.date)">+ Für diesen Tag hinzufügen</button>
-  <button class="btnD" style="width:100%;margin-top:8px;padding:13px;border-radius:12px;border:none" onclick="closeDay()">Schließen</button>
-</div>
-</div>
+<div class="overlay" id="dayO"><div class="panel"><h2 id="dT"></h2><div id="dL" style="display:flex;flex-direction:column;gap:8px;margin:14px 0"></div>
+<button class="w" style="width:100%;padding:14px;border-radius:14px" onclick="openA(document.getElementById('dT').dataset.date)">+ Für diesen Tag</button>
+<button class="d" style="width:100%;margin-top:8px;padding:14px;border-radius:14px;border:none" onclick="closeD()">Schließen</button></div></div>
 
-<!-- SETTINGS -->
-<div class="overlay" id="setOverlay">
-<div class="panel">
-  <h2>Einstellungen</h2>
-  <div class="settingRow"><span>🔔 Push Benachrichtigungen aktivieren</span><button class="btnW" onclick="askNotify()">Aktivieren</button></div>
-  <div class="settingRow"><span>1 Tag vorher erinnern</span><input type="checkbox" id="n1" checked></div>
-  <div class="settingRow"><span>2 Tage vorher erinnern</span><input type="checkbox" id="n2" checked></div>
-  <div class="settingRow"><span>Bei neu / bearbeitet / gelöscht melden</span><input type="checkbox" id="nNew" checked></div>
-  <p style="color:#666;font-size:12px">Farben: Hausaufgabe=Blau, Test=Orange, Klassenarbeit=Rot, Sonstiges=Grün.<br>Push B: Wenn du aktivierst, bekommst du auch wenn die App zu ist eine Meldung. Der Browser fragt einmal nach Erlaubnis.<br>Später läuft das über Cloudflare für die ganze Klasse.</p>
-  <button class="btnD" style="width:100%" onclick="closeSettings()">Fertig</button>
-</div>
-</div>
+<div class="overlay" id="setO"><div class="panel"><h2 style="margin:0 0 14px">Einstellungen</h2>
+<div style="background:#0A0A0B;border:1px solid #222;border-radius:14px;padding:14px;display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><span>🔔 Push aktivieren</span><button class="w" onclick="enPush()">Aktivieren</button></div>
+<div style="display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid #1E1E22"><span>1 Tag vorher</span><input type="checkbox" id="n1" checked></div>
+<div style="display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid #1E1E22"><span>2 Tage vorher</span><input type="checkbox" id="n2" checked></div>
+<div style="display:flex;justify-content:space-between;padding:12px 0"><span>Bei neu/bearbeitet/gelöscht</span><input type="checkbox" id="nN" checked></div>
+<button class="d" style="width:100%;margin-top:14px" onclick="closeS()">Fertig</button>
+</div></div>
 
 <script>
-let cur = new Date(); cur.setDate(1);
-let selType='Hausaufgabe'; let editId=null;
-let events = JSON.parse(localStorage.getItem('klassen_events_v2')||'[]');
-const COLORS={Hausaufgabe:'#3B82F6',Test:'#F59E0B',Klassenarbeit:'#EF4444',Sonstiges:'#10B981'};
-
-const $ = s=>document.getElementById(s);
-function saveStore(){localStorage.setItem('klassen_events_v2',JSON.stringify(events))}
-
+let cur=new Date();cur.setDate(1);let sel='Hausaufgabe',edit=null,evs=[];
+const COL={Hausaufgabe:'#3B82F6',Test:'#F59E0B',Klassenarbeit:'#EF4444',Sonstiges:'#10B981'};
+const $=id=>document.getElementById(id);
+const API='/api/events';
+async function load(){try{const r=await fetch(API);evs=await r.json();}catch{evs=JSON.parse(localStorage.getItem('ev')||'[]');} render();}
+function store(){localStorage.setItem('ev',JSON.stringify(evs));}
 function render(){
-  const y=cur.getFullYear(), m=cur.getMonth();
-  $('calLabel').textContent=new Intl.DateTimeFormat('de-DE',{month:'long',year:'numeric'}).format(cur);
-  $('monthTitle').textContent=new Intl.DateTimeFormat('de-DE',{month:'short'}).format(cur)+' '+y;
-  $('dow').innerHTML=['Mo','Di','Mi','Do','Fr','Sa','So'].map(d=>`<div class="dow">${d}</div>`).join('');
-  const first=new Date(y,m,1); let start=first.getDay(); start=start===0?6:start-1;
-  const dim=new Date(y,m+1,0).getDate(); const dimPrev=new Date(y,m,0).getDate();
-  let html=''; const q=$('search').value.toLowerCase();
-  for(let i=0;i<42;i++){
-    let num, dateStr, other=false;
-    if(i<start){ num=dimPrev-start+i+1; dateStr=new Date(y,m-1,num).toISOString().slice(0,10); other=true; }
-    else if(i>=start+dim){ num=i-start-dim+1; dateStr=new Date(y,m+1,num).toISOString().slice(0,10); other=true; }
-    else { num=i-start+1; dateStr=new Date(y,m,num).toISOString().slice(0,10); }
-    const evs=events.filter(e=>e.datum===dateStr);
-    const isToday=dateStr===new Date().toISOString().slice(0,10);
-    html+=`<div class="day ${isToday?'today':''} ${other?'other':''}" onclick="openDay('${dateStr}')">
-      <div class="dayNum">${num}</div>
-      <div class="dots">${evs.slice(0,5).map(e=>`<div class="dot" style="background:${COLORS[e.type]}"></div>`).join('')}${evs.length>5?`<div style="font-size:10px;color:#888">+${evs.length-5}</div>`:''}</div>
-    </div>`;
-  }
-  $('days').innerHTML=html;
-  
-  let filtered=events.filter(e=>!q||e.fach.toLowerCase().includes(q)||e.beschreibung.toLowerCase().includes(q)||e.datum.includes(q)||e.type.toLowerCase().includes(q));
-  filtered.sort((a,b)=>a.datum.localeCompare(b.datum));
-  $('list').innerHTML=filtered.map(e=>`
-    <div class="item type-${e.type}" onclick="startEdit('${e.id}')">
-      <div class="badge" style="background:${COLORS[e.type]}"></div>
-      <div style="flex:1"><b>${e.type} - ${e.fach}</b><small>${e.datum} • ${e.beschreibung.slice(0,70)||'ohne Beschreibung'}</small></div>
-      <div onclick="event.stopPropagation();del('${e.id}')" style="font-size:20px;padding:6px">🗑️</div>
-    </div>`).join('') || `<div style="text-align:center;color:#555;margin-top:30px">Noch nichts drin - drück + Add</div>`;
+ const y=cur.getFullYear(),m=cur.getMonth();$('cLab').textContent=new Intl.DateTimeFormat('de-DE',{month:'long',year:'numeric'}).format(cur);$('mTitle').textContent=new Intl.DateTimeFormat('de-DE',{month:'short'}).format(cur);
+ $('dow').innerHTML=['Mo','Di','Mi','Do','Fr','Sa','So'].map(d=>`<div class=dow>${d}</div>`).join('');
+ const f=new Date(y,m,1);let s=f.getDay();s=s===0?6:s-1;const dim=new Date(y,m+1,0).getDate(),dimP=new Date(y,m,0).getDate();let h='';
+ for(let i=0;i<42;i++){let n,ds,o=false;if(i<s){n=dimP-s+i+1;ds=new Date(y,m-1,n).toISOString().slice(0,10);o=true;}else if(i>=s+dim){n=i-s-dim+1;ds=new Date(y,m+1,n).toISOString().slice(0,10);o=true;}else{n=i-s+1;ds=new Date(y,m,n).toISOString().slice(0,10);}
+  const dE=evs.filter(e=>e.datum===ds);const today=ds===new Date().toISOString().slice(0,10);
+  h+=`<div class="day ${today?'today':''} ${o?'other':''}" onclick="openD('${ds}')"><div style="font-weight:800;font-size:13px">${n}</div><div class=dots>${dE.slice(0,6).map(e=>`<div class=dot style="background:${COL[e.type]}"></div>`).join('')}</div></div>`;
+ }$('days').innerHTML=h;
+ const q=$('q').value.toLowerCase();let fl=evs.filter(e=>!q||e.fach.toLowerCase().includes(q)||e.beschreibung.toLowerCase().includes(q)||e.datum.includes(q)||e.type.toLowerCase().includes(q));fl.sort((a,b)=>a.datum.localeCompare(b.datum));
+ $('list').innerHTML=fl.map(e=>`<div class="item type-${e.type}" onclick="ed('${e.id}')"><div style="width:10px;height:10px;border-radius:50%;background:${COL[e.type]}"></div><div style="flex:1"><b>${e.type} - ${e.fach}</b><br><span>${e.datum} • ${e.beschreibung.slice(0,60)||'—'}</span></div><div onclick="event.stopPropagation();del('${e.id}')">🗑️</div></div>`).join('')||'<div style="text-align:center;color:#444;margin-top:30px">Keine Termine</div>';
 }
-
-function move(d){ cur.setMonth(cur.getMonth()+d); render(); }
-
-function openAdd(prefill){
-  $('addOverlay').classList.add('open');
-  $('formTitle').textContent=editId?'Bearbeiten':'Hinzufügen';
-  $('saveBtn').textContent=editId?'Speichern':'Add';
-  if(prefill) $('datum').value=prefill;
-  document.querySelectorAll('.cats button').forEach(b=>b.classList.toggle('active', b.dataset.t===selType));
+function mv(d){cur.setMonth(cur.getMonth()+d);render();}
+function openA(pre){$('addO').classList.add('open');$('fT').textContent=edit?'Bearbeiten':'Neuer Termin';$('sB').textContent=edit?'Speichern':'Add';if(pre)$('datum').value=pre;document.querySelectorAll('.cats button').forEach(b=>b.classList.toggle('active',b.dataset.t===sel));}
+function closeA(){ $('addO').classList.remove('open');edit=null;$('fach').value='';$('desc').value='';}
+function pt(b){sel=b.dataset.t;document.querySelectorAll('.cats button').forEach(x=>x.classList.remove('active'));b.classList.add('active');}
+async function save(){
+ const fach=$('fach').value.trim(),datum=$('datum').value,desc=$('desc').value.trim();if(!fach||!datum)return alert('Fach + Datum');
+ const p={type:sel,fach,datum,beschreibung:desc};
+ if(edit){const i=evs.findIndex(e=>e.id===edit);evs[i]={...evs[i],...p};try{await fetch(API+'/'+edit,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(p)});}catch{} }
+ else{try{const r=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(p)});const j=await r.json();evs.push(j);}catch{p.id=crypto.randomUUID();evs.push(p);store();}}
+ store();closeA();render();
 }
-function closeAdd(){ $('addOverlay').classList.remove('open'); editId=null; $('fach').value=''; $('desc').value=''; if(!$('datum').value) $('datum').value=new Date().toISOString().slice(0,10); }
-function pickType(btn){ selType=btn.dataset.t; document.querySelectorAll('.cats button').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); }
-
-function save(){
-  const fach=$('fach').value.trim(), datum=$('datum').value, beschreibung=$('desc').value.trim();
-  if(!fach||!datum){ alert('Fach + Datum ausfüllen'); return; }
-  if(editId){
-    const i=events.findIndex(e=>e.id===editId); events[i]={...events[i], type:selType, fach, datum, beschreibung};
-    notify('GEÄNDERT: '+selType+' '+fach, beschreibung);
-  } else {
-    const ev={id:crypto.randomUUID(), type:selType, fach, datum, beschreibung, created:Date.now()};
-    events.push(ev);
-    notify('NEU: '+selType+' in '+fach+' am '+datum, beschreibung);
-  }
-  saveStore(); closeAdd(); render();
+function ed(id){const e=evs.find(x=>x.id===id);edit=id;sel=e.type;$('fach').value=e.fach;$('datum').value=e.datum;$('desc').value=e.beschreibung;openA();}
+async function del(id){if(!confirm('Löschen?'))return;evs=evs.filter(e=>e.id!==id);store();render();try{await fetch(API+'/'+id,{method:'DELETE'});}catch{}}
+function openD(date){$('dayO').classList.add('open');$('dT').textContent=new Date(date).toLocaleDateString('de-DE',{weekday:'long',day:'numeric',month:'long'});$('dT').dataset.date=date;const dE=evs.filter(e=>e.datum===date);$('dL').innerHTML=dE.map(e=>`<div class="item type-${e.type}" onclick="ed('${e.id}');closeD()"><div style="width:10px;height:10px;border-radius:50%;background:${COL[e.type]}"></div><div><b>${e.type} - ${e.fach}</b><br><span>${e.beschreibung||'—'}</span></div></div>`).join('')||'<span style="color:#666">Kein Termin</span>';}
+function closeD(){ $('dayO').classList.remove('open');}
+function openS(){ $('setO').classList.add('open');}
+function closeS(){ $('setO').classList.remove('open');localStorage.setItem('ns',JSON.stringify({n1:$('n1').checked,n2:$('n2').checked}));}
+async function enPush(){
+ if(!('Notification' in window)) return alert('Geht nicht');
+ const p=await Notification.requestPermission(); if(p!=='granted') return;
+ const reg=await navigator.serviceWorker.register('/sw.js');
+ const sub=await reg.pushManager.subscribe({userVisibleOnly:true, applicationServerKey:urlBase64ToUint8Array('HIER_PUBLIC_KEY_REIN')});
+ await fetch('/api/subscribe',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(sub)});
+ alert('Push aktiv!');
 }
-function startEdit(id){
-  const ev=events.find(e=>e.id===id); if(!ev) return;
-  editId=id; selType=ev.type; $('fach').value=ev.fach; $('datum').value=ev.datum; $('desc').value=ev.beschreibung;
-  document.querySelectorAll('.cats button').forEach(b=>b.classList.toggle('active', b.dataset.t===selType));
-  openAdd();
-}
-function del(id){
-  if(!confirm('Wirklich löschen?')) return;
-  events=events.filter(e=>e.id!==id); saveStore(); render();
-  notify('GELÖSCHT: Termin gelöscht','');
-}
-
-function openDay(date){
-  $('dayOverlay').classList.add('open');
-  $('dayTitle').textContent=new Date(date).toLocaleDateString('de-DE',{weekday:'long',day:'numeric',month:'long'}); $('dayTitle').dataset.date=date;
-  const evs=events.filter(e=>e.datum===date);
-  $('dayList').innerHTML=evs.map(e=>`<div class="item type-${e.type}" onclick="startEdit('${e.id}');closeDay()"><div class="badge" style="background:${COLORS[e.type]}"></div><div><b>${e.type} - ${e.fach}</b><br><small>${e.beschreibung||'ohne Beschreibung'}</small></div></div>`).join('')||'<div style="color:#666">Keine Termine für diesen Tag</div>';
-}
-function closeDay(){ $('dayOverlay').classList.remove('open'); }
-
-function openSettings(){ $('setOverlay').classList.add('open'); const s=JSON.parse(localStorage.getItem('notifSet')||'{"n1":true,"n2":true,"nNew":true}'); $('n1').checked=s.n1; $('n2').checked=s.n2; $('nNew').checked=s.nNew; }
-function closeSettings(){ $('setOverlay').classList.remove('open'); localStorage.setItem('notifSet', JSON.stringify({n1:$('n1').checked,n2:$('n2').checked,nNew:$('nNew').checked})); }
-
-function askNotify(){
-  if(!('Notification' in window)){ alert('Dein Browser unterstützt keine Push'); return; }
-  Notification.requestPermission().then(p=>{
-    if(p==='granted'){ new Notification('🔔 Push aktiv!', {body:'Du bekommst jetzt Erinnerungen für Hausaufgaben'}); localStorage.setItem('pushAllowed','1'); }
-  });
-}
-function notify(title, body){
-  const s=JSON.parse(localStorage.getItem('notifSet')||'{"nNew":true}'); if(!s.nNew) return;
-  if(Notification.permission==='granted' && localStorage.getItem('pushAllowed')){ new Notification(title,{body}); }
-}
-
-// 1-Tag / 2-Tage Check alle 30min
-setInterval(()=>{
-  const s=JSON.parse(localStorage.getItem('notifSet')||'{"n1":true,"n2":true}');
-  if(Notification.permission!=='granted') return;
-  const today=new Date(); today.setHours(0,0,0,0);
-  const fmt=d=>d.toISOString().slice(0,10);
-  const t1=new Date(today); t1.setDate(today.getDate()+1);
-  const t2=new Date(today); t2.setDate(today.getDate()+2);
-  events.forEach(ev=>{
-    if(s.n1 && ev.datum===fmt(t1)) new Notification('MORGEN: '+ev.type+' '+ev.fach, {body:ev.beschreibung});
-    if(s.n2 && ev.datum===fmt(t2)) new Notification('IN 2 TAGEN: '+ev.type+' '+ev.fach, {body:ev.beschreibung});
-  });
-}, 30*60*1000);
-
-$('search').addEventListener('input', render);
-$('datum').value=new Date().toISOString().slice(0,10);
-render();
-</script>
-</body>
-</html>
+function urlBase64ToUint8Array(b){const pad='='.repeat((4-b.length%4)%4);const base=(b+pad).replace(/-/g,'+').replace(/_/g,'/');const raw=atob(base);const out=new Uint8Array(raw.length);for(let i=0;i<raw.length;++i)out[i]=raw.charCodeAt(i);return out;}
+$('q').addEventListener('input',render);$('datum').value=new Date().toISOString().slice(0,10);
+if('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js');
+load();
+</script></body></html>
